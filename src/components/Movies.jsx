@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieServices";
 import { getGenres } from "../services/fakeGenreService";
 import Pagination from "./Pagination";
-import MovieTable from "./MoviesTable";
+import MoviesTable from "./MoviesTable";
 import { paginate } from "../util/paginate";
 import Filter from "./Filter";
 import _ from "lodash";
@@ -46,15 +46,7 @@ class Movies extends Component {
 		this.setState({ selectedGenre: genre, currentPage: 1 });
 	};
 
-	handleSort = (path) => {
-		const sortColumn = { ...this.state.sortColumn };
-
-		if (sortColumn.path === path) {
-			sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-		} else {
-			sortColumn.path = path;
-			sortColumn.order = "asc";
-		}
+	handleSort = (sortColumn) => {
 		this.setState({ sortColumn });
 	};
 
@@ -90,11 +82,12 @@ class Movies extends Component {
 					<p style={{ marginBottom: 15 }}>
 						Showing {movies.length} of {count} movies in the Database
 					</p>
-					<MovieTable
+					<MoviesTable
 						movies={movies}
 						onLike={this.handleLike}
 						onDelete={this.handleDelete}
 						onSort={this.handleSort}
+						sortColumn={this.state.sortColumn}
 					/>
 					<Pagination
 						itemCount={filtered.length}
